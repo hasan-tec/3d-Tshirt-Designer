@@ -1,13 +1,24 @@
-export const downloadCanvasToImage = () => {
+export const downloadCanvasToImage = (fileName = 'tshirt-design.png', format = 'png') => {
   const canvas = document.querySelector("canvas");
-  const dataURL = canvas.toDataURL();
+  const mimeType = format.toLowerCase() === 'jpeg' || format.toLowerCase() === 'jpg' 
+    ? 'image/jpeg' 
+    : 'image/png';
+    
+  // For JPEG format, we need to specify quality (0.9 = 90% quality)
+  const quality = mimeType === 'image/jpeg' ? 0.9 : undefined;
+  
+  // Get the data URL with specified format
+  const dataURL = canvas.toDataURL(mimeType, quality);
+  
+  // Create a link and trigger download
   const link = document.createElement("a");
-
   link.href = dataURL;
-  link.download = "canvas.png";
+  link.download = fileName;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  
+  return dataURL; // Return the data URL for potential further use
 };
 
 export const reader = (file) =>

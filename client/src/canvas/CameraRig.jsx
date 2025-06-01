@@ -2,12 +2,14 @@ import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
 import { useSnapshot } from 'valtio';
+import { useAuth } from '../context/AuthContext';
 
 import state from '../store';
 
 const CameraRig = ({ children }) => {
   const group = useRef();
   const snap = useSnapshot(state);
+  const { isAuthenticated } = useAuth();
 
   useFrame((state, delta) => {
     const isBreakpoint = window.innerWidth <= 1260;
@@ -26,13 +28,23 @@ const CameraRig = ({ children }) => {
     // set model camera position
     easing.damp3(state.camera.position, targetPosition, 0.25, delta)
 
-    // set the model rotation smoothly
-    easing.dampE(
-      group.current.rotation,
-      [state.pointer.y / 10, -state.pointer.x / 5, 0],
-      0.25,
-      delta
-    )
+    // set the model rotation smoothly - only if user is authenticated
+    if (isAuthenticated) {
+      easing.dampE(
+        group.current.rotation,
+        [state.pointer.y / 10, -state.pointer.x / 5, 0],
+        0.25,
+        delta
+      )
+    } else {
+      // Keep model in a fixed, slightly angled position for non-authenticated users
+      easing.dampE(
+        group.current.rotation,
+        [0.1, 0.2, 0],
+        0.25,
+        delta
+      )
+    }
   })
 
 

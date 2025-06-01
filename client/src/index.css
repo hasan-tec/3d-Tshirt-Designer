@@ -61,6 +61,16 @@ html {
 
 .tab-btn {
   @apply w-14 h-14 flex justify-center items-center cursor-pointer select-none;
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-btn:hover:not(.disabled) {
+  transform: scale(1.05);
+}
+
+.tab-btn.disabled {
+  cursor: not-allowed !important;
+  transform: none !important;
 }
 
 .glassmorphism {
@@ -89,4 +99,102 @@ input[type="file"] {
 
 .sketch-picker > div:nth-child(3) {
   display: none !important;
+}
+
+/* Saved Designs Page Styles */
+.saved-designs-page {
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.saved-designs-page header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Bento Grid Styles */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.design-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.design-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.design-thumbnail {
+  height: 16rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.design-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.design-overlay:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}
+
+.design-info {
+  padding: 1rem;
+}
+
+.design-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Disabled tabs styles */
+.tab-btn.disabled {
+  cursor: not-allowed !important;
+  filter: grayscale(100%);
+  opacity: 0.6;
 }
